@@ -1,6 +1,8 @@
 import { useId, useState } from "react";
 import FindDistanceButton from "./FindDistanceButton";
+import { fetchData } from "../utils/helper";
 
+// Handling the user-inputs
 const UserDataInput = () => {
   // Inits
   const airPortId1 = useId();
@@ -19,12 +21,12 @@ const UserDataInput = () => {
   // State management and api calling For airport one
   const airportOneChageHandler = async (event) => {
     const value = event.target.value;
-    const response = await fetch(
+    const data = await fetchData(
       `http://api.geonames.org/search?q=${encodeURI(
         value
       )}&username=beastridervv&type=json&fcodeName=airport`
     );
-    const data = await response.json();
+
     setAirportOneData((prevState) => {
       return {
         ...prevState,
@@ -37,12 +39,11 @@ const UserDataInput = () => {
   // State management and api calling For airport two
   const airportTwoChageHandler = async (event) => {
     const value = event.target.value;
-    const response = await fetch(
+    const data = await fetchData(
       `http://api.geonames.org/search?q=${encodeURI(
         value
-      )}&username=beastridervv&type=json&fcodeName=airport&maxRows=10`
+      )}&username=beastridervv&type=json&fcodeName=airport`
     );
-    const data = await response.json();
     setAirportTwoData((prevState) => {
       return {
         ...prevState,
