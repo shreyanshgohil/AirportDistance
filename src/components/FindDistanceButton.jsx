@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { getDistanceFromLatLonInKm } from "../utils/helper";
 import ErrorMessage from "./ErrorMessage";
+
+// Handling the Distance Calculation
 const FindDistanceButton = (props) => {
   // Inits
   const { airportOneData, airportTwoData } = props;
   const [showErrorMessage, setErrorMessage] = useState(false);
   const [airportDistance, setAirportDistance] = useState(0);
-  //   Logic for calculate Distance between two airports
 
+  //   Logic for calculate Distance between two airports
   const calculateDistanceHandler = () => {
     if (
       airportOneData.suggestedAirports.totalResultsCount === 1 &&

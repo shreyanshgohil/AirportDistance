@@ -1,5 +1,6 @@
+// Handling the Error messages
 const ErrorMessage = ({ children }) => {
-    // JSX code
+  // JSX code
   return (
     <div className="error-message">
       <div className="error-message-wrapper">

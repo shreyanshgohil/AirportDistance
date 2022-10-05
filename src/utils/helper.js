@@ -18,3 +18,11 @@ export function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
+
+//Function for Call GET Api and sned json reponse back
+
+export const fetchData = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};
