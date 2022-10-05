@@ -22,7 +22,6 @@ const AirportInput = (props) => {
         value
       )}&username=beastridervv&type=json&fcodeName=airport&maxRows=10`
     );
-    debugger;
     setAirportData((prevState) => {
       return {
         ...prevState,
