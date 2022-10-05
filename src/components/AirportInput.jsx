@@ -53,6 +53,11 @@ const AirportInput = (props) => {
         suggestedValue: selectedSuggetion,
       };
     });
+    onAirportData({
+      ...airportData,
+      suggestedAirports: data,
+      inputValue: selectedSuggetion,
+    });
   };
 
   //   JSX
