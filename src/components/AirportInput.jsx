@@ -11,6 +11,7 @@ const AirportInput = (props) => {
     isActive: false,
     inputValue: "",
     suggestedAirports: {},
+    suggestedValue: "",
   });
 
   // State management and api calling For airport
@@ -21,12 +22,13 @@ const AirportInput = (props) => {
         value
       )}&username=beastridervv&type=json&fcodeName=airport&maxRows=10`
     );
-
+    debugger;
     setAirportData((prevState) => {
       return {
         ...prevState,
-        suggestedAirports: { ...data },
+        suggestedAirports: data,
         inputValue: value,
+        suggestedValue: "",
       };
     });
 
@@ -36,6 +38,24 @@ const AirportInput = (props) => {
       inputValue: value,
     });
   };
+
+  // select one suggetion handler
+  const selectOneSuggetion = async (selectedSuggetion) => {
+    const data = await fetchData(
+      `http://api.geonames.org/search?q=${encodeURI(
+        selectedSuggetion
+      )}&username=beastridervv&type=json&fcodeName=airport&maxRows=10`
+    );
+    setAirportData((prevState) => {
+      return {
+        ...prevState,
+        inputValue: selectedSuggetion,
+        suggestedAirports: data,
+        suggestedValue: selectedSuggetion,
+      };
+    });
+  };
+
   //   JSX
   return (
     <div className="airport-input">
@@ -45,6 +65,7 @@ const AirportInput = (props) => {
           <input
             type="text"
             name="airportFirst"
+            autoComplete="off"
             id={airPortId}
             onChange={airportChageHandler}
             onFocus={() => {
@@ -68,7 +89,14 @@ const AirportInput = (props) => {
             value={airportData.inputValue}
           />
         </div>
-        {airportData.isActive && <SuggetionBox airportData={airportData} />}
+        {airportData.suggestedValue.length === 0 && (
+          <div className="suggetions">
+            <SuggetionBox
+              airportData={airportData}
+              onSuggetion={selectOneSuggetion}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
