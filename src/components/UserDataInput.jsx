@@ -1,56 +1,21 @@
-import { useId, useState } from "react";
+import { useState } from "react";
 import FindDistanceButton from "./FindDistanceButton";
-import { fetchData } from "../utils/helper";
+import AirportInput from "./AirportInput";
 
 // Handling the user-inputs
 const UserDataInput = () => {
   // Inits
-  const airPortId1 = useId();
-  const airPortId2 = useId();
-  const [airportOneData, setAirportOneData] = useState({
-    isActive: false,
-    inputValue: "",
-    suggestedAirports: {},
-  });
-  const [airportTwoData, setAirportTwoData] = useState({
-    isActive: false,
-    inputValue: "",
-    suggestedAirports: {},
-  });
+  const [airportOneData, setAirportOneData] = useState({});
+  const [airportTwoData, setAirportTwoData] = useState({});
 
-  // State management and api calling For airport one
-  const airportOneChageHandler = async (event) => {
-    const value = event.target.value;
-    const data = await fetchData(
-      `http://api.geonames.org/search?q=${encodeURI(
-        value
-      )}&username=beastridervv&type=json&fcodeName=airport`
-    );
-
-    setAirportOneData((prevState) => {
-      return {
-        ...prevState,
-        suggestedAirports: data,
-        inputValue: value,
-      };
-    });
+  // Fuction for get the data of child componentAioport one
+  const airportOneDataHandler = (data) => {
+    setAirportOneData(data);
   };
 
-  // State management and api calling For airport two
-  const airportTwoChageHandler = async (event) => {
-    const value = event.target.value;
-    const data = await fetchData(
-      `http://api.geonames.org/search?q=${encodeURI(
-        value
-      )}&username=beastridervv&type=json&fcodeName=airport`
-    );
-    setAirportTwoData((prevState) => {
-      return {
-        ...prevState,
-        suggestedAirports: data,
-        inputValue: value,
-      };
-    });
+  // Fuction for get the data of child componentAioport Two
+  const airportTwoDataHandler = (data) => {
+    setAirportTwoData(data);
   };
 
   // JSX code
@@ -58,55 +23,15 @@ const UserDataInput = () => {
     <div className="user-data-input">
       <div className="user-data-input-wrapper">
         <div className="airport-wrapper">
-          <label htmlFor={airPortId1}>Airport 1</label>
-          <input
-            type="text"
-            name="airportFirst"
-            id={airPortId1}
-            onChange={airportOneChageHandler}
-            onFocus={() =>
-              setAirportOneData((prevState) => {
-                return {
-                  ...prevState,
-                  isActive: true,
-                };
-              })
-            }
-            onBlur={() =>
-              setAirportOneData((prevState) => {
-                return {
-                  ...prevState,
-                  isActive: false,
-                };
-              })
-            }
-            value={airportOneData.inputValue}
+          <AirportInput
+            onAirportData={airportOneDataHandler}
+            labelTitle="Airport One"
           />
         </div>
         <div className="airport-wrapper">
-          <label htmlFor={airPortId2}>Airport 2</label>
-          <input
-            type="text"
-            name="airportSecond"
-            id={airPortId2}
-            onChange={airportTwoChageHandler}
-            onFocus={() =>
-              setAirportTwoData((prevState) => {
-                return {
-                  ...prevState,
-                  isActive: true,
-                };
-              })
-            }
-            onBlur={() =>
-              setAirportTwoData((prevState) => {
-                return {
-                  ...prevState,
-                  isActive: false,
-                };
-              })
-            }
-            value={airportTwoData.inputValue}
+          <AirportInput
+            onAirportData={airportTwoDataHandler}
+            labelTitle="Airport Two"
           />
         </div>
         <div className="final-search-wrapper">
