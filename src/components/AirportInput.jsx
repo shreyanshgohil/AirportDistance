@@ -1,9 +1,10 @@
 import React, { useId, useState } from "react";
 import { fetchData } from "../utils/helper";
-
+import SuggetionBox from "./SuggetionBox";
 // Single input value handling
 const AirportInput = (props) => {
   // INITS
+
   const { labelTitle, onAirportData } = props;
   const airPortId = useId();
   const [airportData, setAirportData] = useState({
@@ -18,23 +19,23 @@ const AirportInput = (props) => {
     const data = await fetchData(
       `http://api.geonames.org/search?q=${encodeURI(
         value
-      )}&username=beastridervv&type=json&fcodeName=airport`
+      )}&username=beastridervv&type=json&fcodeName=airport&maxRows=10`
     );
+
+    setAirportData((prevState) => {
+      return {
+        ...prevState,
+        suggestedAirports: { ...data },
+        inputValue: value,
+      };
+    });
 
     onAirportData({
       ...airportData,
       suggestedAirports: data,
       inputValue: value,
     });
-    setAirportData((prevState) => {
-      return {
-        ...prevState,
-        suggestedAirports: data,
-        inputValue: value,
-      };
-    });
   };
-
   //   JSX
   return (
     <div className="airport-input">
@@ -67,6 +68,7 @@ const AirportInput = (props) => {
             value={airportData.inputValue}
           />
         </div>
+        {airportData.isActive && <SuggetionBox airportData={airportData} />}
       </div>
     </div>
   );
